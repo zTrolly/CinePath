@@ -20,11 +20,6 @@ export class MovieDb {
     })
   }
 
-  /**
-   * Gets an api token using an api key
-   *
-   * @returns {Promise}
-   */
   async requestToken(): Promise<AuthenticationToken> {
     if (!this.token || (this.token.expires_at && Date.now() > new Date(this.token.expires_at).getTime())) {
       this.token = await this.makeRequest(HttpMethod.Get, 'authentication/token/new')
@@ -643,6 +638,6 @@ export class MovieDb {
     return this.makeRequest(HttpMethod.Get, 'tv/:id/season/:season_number/episode/:episode_number/videos', params, axiosConfig)
   }
     
-  }
+}
 
  

@@ -1,6 +1,12 @@
-<div class="movieContentWrapper">
-  <img src="https://image.tmdb.org/t/p/w200/mDeUmPe4MF35WWlAqj4QFX5UauJ.jpg" alt="movie poster" />
-  <div >
-    teste
-  </div>
-</div>
+<ion-list>
+  <ion-item *ngFor="let movie of movies">
+    <ion-thumbnail slot="start">
+      <img [src]="getMovieImageUrl(movie.poster_path)" />
+    </ion-thumbnail>
+    <ion-label>
+      <h2>{{ movie.title }}</h2>
+      <p>Released: {{ movie.release_date  }}</p>
+      <p>{{ movie.overview }}</p>
+    </ion-label>
+  </ion-item>
+</ion-list>
