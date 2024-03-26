@@ -1,0 +1,7 @@
+{
+  "name": "cinepath",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
