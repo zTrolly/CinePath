@@ -1,12 +1,13 @@
-<ion-list>
-  <ion-item *ngFor="let movie of movies">
-    <ion-thumbnail slot="start">
-      <img [src]="getMovieImageUrl(movie.poster_path)" />
-    </ion-thumbnail>
-    <ion-label>
-      <h2>{{ movie.title }}</h2>
-      <p>Released: {{ movie.release_date  }}</p>
-      <p>{{ movie.overview }}</p>
-    </ion-label>
-  </ion-item>
-</ion-list>
+  <ion-card *ngIf="isMovie && movie" class="poster">   
+    <img [src]="getImgUrl(movie.poster_path)" alt="Movie poster">
+    <ion-card-header>
+      <ion-card-title>{{ movie.title }}</ion-card-title>
+    </ion-card-header>
+  </ion-card>
+  
+  <ion-card *ngIf="isTvShow && tvShow" class="poster">
+    <img [src]="getImgUrl(tvShow.poster_path)" alt="TV Show poster">
+    <ion-card-header>
+      <ion-card-title>{{ tvShow.name }}</ion-card-title>
+    </ion-card-header>
+  </ion-card>

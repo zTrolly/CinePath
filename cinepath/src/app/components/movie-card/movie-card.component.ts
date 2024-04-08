@@ -1,35 +1,57 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common'; // Import CommonModule
 import { MovieDb } from 'src/app/services/movieDb';
 import { environment } from 'src/environments/environment';
-import { IonList, IonItem, IonThumbnail, IonLabel } from '@ionic/angular/standalone';
+import { IonList, IonItem, IonThumbnail, IonLabel, IonCard, IonCardHeader, IonCardTitle, IonCardContent } from '@ionic/angular/standalone';
+import { MovieResult, TvResult } from 'src/app/types/request-types';
+import { getUrl } from 'ionicons/dist/types/components/icon/utils';
+import { list } from 'ionicons/icons';
 
 @Component({
   selector: 'app-movie-card',
   templateUrl: './movie-card.component.html',
   styleUrls: ['./movie-card.component.scss'],
   standalone: true,
-  imports: [
+  imports: [IonCardContent, IonCardTitle, IonCardHeader, 
     CommonModule, // Import CommonModule here
-    IonList, 
-    IonItem, 
-    IonThumbnail, 
-    IonLabel
+    IonList,
+    IonItem,
+    IonThumbnail,
+    IonLabel,
+    IonCard
   ]
 })
 export class MovieCardComponent implements OnInit {
-  movies: any[] = [];
-  movieDbService = new MovieDb(environment.api_key);
+  @Input() movie = {} as MovieResult 
+  @Input() tvShow = {} as TvResult
+  @Input() listType: string = '';
 
-  ngOnInit() {
-    this.movieDbService.moviePopular({language: 'pt-BR'}).then((response) => {
-      this.movies = response.results || []; // Initialize as an empty array if response.results is undefined
-    }).catch(error => {
-      console.error('Error fetching popular movies:', error);
-    });
+  get isMovie(): boolean {
+    return this.listType === 'Movies';
+  }
+  
+  get isTvShow(): boolean {
+    return this.listType === 'TVShows';
   }
 
-  getMovieImageUrl(posterPath: string): string {
-    return `https://image.tmdb.org/t/p/w500${posterPath}`;
+
+  getImgUrl = (path?: string) => {
+    if(this.listType === 'Movies') 
+      return `https://image.tmdb.org/t/p/w500${path}`
+
+     return `https://image.tmdb.org/t/p/w220_and_h330_face/${path}`
+
+
+
+  }
+
+ 
+
+  ngOnInit() {
+    // console.log(this.movie)
+    console.log(this.tvShow)
+    console.log(this.listType)
+    console.log(this.isMovie)
+    
   }
 }

@@ -1,30 +1,32 @@
-import { Component, OnInit } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular/standalone';
-import { ExploreContainerComponent } from '../components/explore-container/explore-container.component';
+import { Component } from '@angular/core';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonButton } from '@ionic/angular/standalone';
+
 import { MovieCardComponent } from '../components/movie-card/movie-card.component';
-import { MovieDb } from '../services/movieDb';
-import { environment } from 'src/environments/environment';
-import { MovieResult } from '../types/request-types';
+import { MovieListComponent } from '../components/movie-list/movie-list.component';
+import { ExploreContainerComponent } from '../components/explore-container/explore-container.component';
 
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
   standalone: true,
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent, MovieCardComponent],
+  imports: [
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonList,
+    IonButton,
+    MovieCardComponent,
+    MovieListComponent,
+    ExploreContainerComponent,
+    MovieCardComponent
+  ]
 })
 export class Tab1Page {
   
   constructor() {
-    const movieDb = new MovieDb(environment.api_key);
-    let teste: MovieResult[] | undefined = [];
-    
-    movieDb.moviePopular().then((response) => {
-      console.log(response.results);
-
-      teste = response.results;
-    });
-
-    console.log(teste);
+    console.log(MovieListComponent)
+  
   }
 }
