@@ -1,0 +1,23 @@
+img{
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    border-bottom-left-radius: 15PX;
+    border-bottom-right-radius: 15px;
+
+}
+
+
+ion-button{
+    --background: #000;
+  --color: white;
+  --border-color: #000;
+  --border-style: solid;
+
+}
+
+ion-row{
+display: flex;
+flex-direction: row;
+justify-content: space-around;    
+}

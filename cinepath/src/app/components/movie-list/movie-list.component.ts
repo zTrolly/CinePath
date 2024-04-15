@@ -8,6 +8,7 @@ import { MovieResult, TvResult } from 'src/app/types/request-types';
 import { MovieCardComponent } from '../movie-card/movie-card.component';
 
 import { register } from 'swiper/element/bundle';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-movie-list',
@@ -21,6 +22,7 @@ import { register } from 'swiper/element/bundle';
     IonThumbnail, 
     IonLabel,
     MovieCardComponent,
+    RouterModule
   ]
 })
 export class MovieListComponent implements OnInit  {
@@ -34,9 +36,6 @@ export class MovieListComponent implements OnInit  {
     initialSlide: 1,
     speed: 400,
   };
-
-
-   
   
   ngOnInit(): void {
     register();

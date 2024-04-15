@@ -5,8 +5,8 @@
     </ion-card-header>
   </ion-card>
   
-  <ion-card *ngIf="isTvShow && tvShow" class="poster">
-    <img [src]="getImgUrl(tvShow.poster_path)" alt="TV Show poster">
+  <ion-card *ngIf="isTvShow && tvShow" class="poster" >
+    <img [src]="getImgUrl(tvShow.poster_path)" alt="TV Show poster" >
     <ion-card-header>
       <ion-card-title>{{ tvShow.name }}</ion-card-title>
     </ion-card-header>
