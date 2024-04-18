@@ -1,13 +1,52 @@
 <ion-content [fullscreen]="true">
 
   <div *ngIf="type === 'tvShow'">
-    <ion-card class="hero">
-      <img [src]="getImgUrl(tvShow.poster_path || '')" />
-      <ion-card-header>
-        <ion-card-title>{{ tvShow.name }}</ion-card-title>
-        <ion-card-subtitle>{{ tvShow.first_air_date }}</ion-card-subtitle>
-      </ion-card-header>
-    </ion-card>
+    <img [src]="getImgUrl(tvShow.backdrop_path || '')" />
+
+    <div class="content-detail__header" style="text-align: center;">
+      <h1>{{ tvShow.name }} <span class="content-detail_year">({{ tvShow.first_air_date?.slice(0,4) }})</span></h1>
+
+      <ion-chip *ngFor="let genre of tvShow.genres">
+        {{ genre.name }}
+      </ion-chip>
+    </div>
+
+    <div class="">
+      <ion-row>
+        <ion-card class="content-detail__card">
+          <ion-card-header>
+            <ion-card-title style="font-size: medium;">Avaliação dos Usuários:</ion-card-title>
+          </ion-card-header>
+          <div *ngIf="tvShow.vote_average">
+            <ion-card>
+              <ion-card-content>
+                <ion-row>
+                  <ion-col>
+                    <ion-label [ngStyle]="{'color': tvShow.vote_average > 5 ? 'green' : 'red'}">{{ tvShow.vote_average }}</ion-label>
+                  </ion-col>
+                  <ion-col>
+                    <ion-label>Votos {{ tvShow.vote_count }}</ion-label>
+                  </ion-col>
+                </ion-row>
+              </ion-card-content>
+
+
+            </ion-card>
+          </div>
+        </ion-card>
+      </ion-row>
+
+
+
+
+    </div>
+
+
+
+
+
+
+
 
 
   </div>

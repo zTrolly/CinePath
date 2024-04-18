@@ -1,23 +1,33 @@
-img{
-    width: 100%;
-    height: 500px;
-    object-fit: cover;
-    border-bottom-left-radius: 15PX;
-    border-bottom-right-radius: 15px;
+img {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+
 
 }
 
+.content-detail__header h1 {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 0;
 
-ion-button{
-    --background: #000;
+}
+
+.content-detail_year {
+  font-size: 0.7em;
+}
+
+
+ion-button {
+  --background: #000;
   --color: white;
   --border-color: #000;
   --border-style: solid;
 
 }
 
-ion-row{
-display: flex;
-flex-direction: row;
-justify-content: space-around;    
+ion-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
 }

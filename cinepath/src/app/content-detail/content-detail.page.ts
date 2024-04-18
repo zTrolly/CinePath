@@ -32,42 +32,44 @@ export class ContentDetailPage implements OnInit {
   id: string = '';
 
 
-  constructor(private route: ActivatedRoute) { 
+  constructor(private route: ActivatedRoute) {
     addIcons({
       heart, bookmark, eye
-     
+
     });
 
   }
   ngOnInit() {
-    this.type =  this.route.snapshot.paramMap.get('type')!;
+    this.type = this.route.snapshot.paramMap.get('type')!;
     this.id = this.route.snapshot.paramMap.get('id')!;
 
-    this.isMovie = () =>  {
+    this.isMovie = () => {
       return this.type === 'Movies';
     }
 
-    this.isTvShow = () =>  {
+    this.isTvShow = () => {
       return this.type === 'tvShow';
     }
-  
 
-  
-    this.getImgUrl = (path?: string, size?:string) => {
-      if(this.type === 'Movies') 
+
+
+    this.getImgUrl = (path?: string, size?: string) => {
+      if (this.type === 'Movies')
         return `https://image.tmdb.org/t/p/w500${path}`
-  
-       return `https://image.tmdb.org/t/p/w780/${path}`
-  
+
+      return `https://media.themoviedb.org/t/p/w1000_and_h450_multi_faces/${path}`
+
     }
 
     if (this.type && this.id) {
       if (this.type === 'tvShow') {
-        this.movieDbService.tvInfo({id: this.id, language: 'pt-BR'}).then((response) => {
+        this.movieDbService.tvInfo({ id: this.id, language: 'pt-BR' }).then((response) => {
           this.tvShow = response;
+          console.log('tv show:', this.tvShow);
           this.movieDbService.tvImages({ id: this.id }).then((response) => {
             this.tvShowImages = response;
             console.log('tv show images:', this.tvShowImages);
+
           }
           ).catch(error => {
             console.error('Error fetching tv show images:', error);
@@ -75,13 +77,13 @@ export class ContentDetailPage implements OnInit {
         }).catch(error => {
           console.error('Error fetching tv show:', error);
         });
-        
+
       }
-      
+
     }
 
 
-    
+
     if (this.tvShowImages.backdrops) {
       // epgar as 5 primeiras imagens
       this.tvShowImages.backdrops = this.tvShowImages.backdrops.slice(0, 5);
@@ -92,8 +94,8 @@ export class ContentDetailPage implements OnInit {
       this.tvShowImages.posters = this.tvShowImages.posters.slice(0, 5);
     }
 
-      
-   
+
+
   }
 
 
