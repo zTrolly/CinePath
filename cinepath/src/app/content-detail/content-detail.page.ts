@@ -5,9 +5,10 @@ import { IonicModule } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { MovieDb } from '../services/movieDb';
 import { environment } from 'src/environments/environment';
-import { MovieImagesResponse, MovieResponse, ShowResponse, TvImagesResponse } from '../types/request-types';
+import { CreditsResponse, MovieImagesResponse, MovieResponse, ShowResponse, TvImagesResponse } from '../types/request-types';
 import { addIcons } from 'ionicons';
 import { heart, bookmark, eye } from 'ionicons/icons';
+import { TrunkTextComponent } from '../components/trunk-text/trunk-text.component';
 
 
 @Component({
@@ -15,7 +16,8 @@ import { heart, bookmark, eye } from 'ionicons/icons';
   templateUrl: './content-detail.page.html',
   styleUrls: ['./content-detail.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule, FormsModule, TrunkTextComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class ContentDetailPage implements OnInit {
   movieDbService = new MovieDb(environment.api_key);
@@ -23,6 +25,7 @@ export class ContentDetailPage implements OnInit {
   movieImages = {} as MovieImagesResponse;
   tvShow = {} as ShowResponse;
   tvShowImages = {} as TvImagesResponse
+  tvShowCredits = {} as CreditsResponse;
 
 
   isMovie: (() => boolean) | undefined;
@@ -70,7 +73,16 @@ export class ContentDetailPage implements OnInit {
             this.tvShowImages = response;
             console.log('tv show images:', this.tvShowImages);
 
+            this.movieDbService.tvCredits({ id: this.id }).then((response) => {
+              this.tvShowCredits = response;
+              console.log('tv show credits:', this.tvShowCredits);
+
+            }
+            ).catch(error => {
+              console.error('Error fetching tv show credits:', error);
+            });
           }
+
           ).catch(error => {
             console.error('Error fetching tv show images:', error);
           });
