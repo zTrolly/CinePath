@@ -1,8 +1,8 @@
-<!-- <!-- <ion-list *ngIf="listType === 'Movies'" class="contentList">
-  <ion-item *ngFor="let movie of movies">
+ <ion-list *ngIf="listType === 'Movies'" class="contentList">
+  <ion-item *ngFor="let movie of movies" [routerLink]="['/contentDetail/movie',  movie.id]">
     <app-movie-card [movie]="movie" listType="Movies"></app-movie-card>
   </ion-item>
-</ion-list> -->
+</ion-list>
 
 <ion-list *ngIf="listType === 'TVShows'" class="contentList">
   <ion-item *ngFor="let tvShow of tvShows" [routerLink]="['/contentDetail/tvShow',  tvShow.id]">

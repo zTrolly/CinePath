@@ -1,32 +1,199 @@
-<ion-content [fullscreen]="true">
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ type === 'movie' ? movie.title : tvShow.name }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+ <ion-content [fullscreen]="true">
+  
 
   <div *ngIf="type === 'tvShow'">
 
-    <swiper-container class="mySwiper" space-between="30" pagination="true" pagination-dynamic="true">
+      <swiper-container class="mySwiper" space-between="2" pagination="true" pagination-dynamic="true" >
 
-      <swiper-slide *ngFor="let img of tvShowImages.backdrops">
-        <img [src]="[getImgUrl(img.file_path)]" class="card-img-top" style="background-size: cover;">
-      </swiper-slide>
+        <swiper-slide *ngFor="let img of tvShowImages.backdrops">
+          <img [src]="[getImgUrl(img.file_path)]" class="card-img-top" style="background-size: cover;">
+        </swiper-slide>
 
-    </swiper-container>
+      </swiper-container>
 
 
-    <div class="content-detail__header" style="text-align: center;">
-      <h1>{{ tvShow.name }} <span class="content-detail_year">({{ tvShow.first_air_date?.slice(0,4) }})</span></h1>
+      <div class="content-detail__header" style="text-align: center;">
+        <h1>{{ tvShow.name }} <span class="content-detail_year">({{ tvShow.first_air_date?.slice(0,4) }})</span></h1>
 
-      <ion-chip *ngFor="let genre of tvShow.genres" color="tertiary">
-        {{ genre.name }}
-      </ion-chip>
-    </div>
+        <ion-chip *ngFor="let genre of tvShow.genres" color="tertiary">
+          {{ genre.name }}
+        </ion-chip>
+      </div>
 
-    <div *ngIf="tvShow.overview">
-      <app-trunk-text [maxLength]="100" text="{{tvShow.overview}}"></app-trunk-text>
-    </div>
+      <div *ngIf="tvShow.overview">
+        <app-trunk-text [maxLength]="100" text="{{tvShow.overview}}"></app-trunk-text>
+      </div>
 
-    <ion-breadcrumb [items]="[{ text: 'Home', routerLink: '/home' }, { text: 'TV Shows', routerLink: '/tv-shows' }, { text: tvShow.name }]" style="padding: 0 10px;">
-    </ion-breadcrumb>
+      <ion-segment [(ngModel)]="segment" *ngIf="similarMovies">
+        <ion-segment-button value="info">
+          Informações
+        </ion-segment-button>
+        <ion-segment-button value="similares">
+          Similares
+        </ion-segment-button>
+      </ion-segment>
 
-    <div>
+
+
+      <div *ngIf="segment === 'info'">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>Informações</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-list>
+              <ion-item>
+                <ion-label>Temporadas</ion-label>
+                <ion-label>{{ tvShow.number_of_seasons }}</ion-label>
+              </ion-item>
+              <ion-item>
+                <ion-label>Episódios</ion-label>
+                <ion-label>{{ tvShow.number_of_episodes }}</ion-label>
+              </ion-item>
+              <ion-item>
+                <ion-label>Estado</ion-label>
+                <ion-label>{{ tvShow.status }}</ion-label>
+              </ion-item>
+              <ion-item *ngIf="tvShow.vote_average">
+                <ion-label>Nota</ion-label>
+                <ion-label [ngStyle]="{'color': tvShow.vote_average > 6 ? 'green' : 'red'}">{{ tvShow.vote_average }}</ion-label>
+              </ion-item>
+              <ion-item>
+                <ion-label>Popularidade</ion-label>
+                <ion-label>{{ tvShow.popularity }}</ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+  
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>Criadores</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-list style="max-height: 400px; overflow-y: scroll;">
+              <ion-item *ngFor="let creator of tvShow.created_by">
+                <ion-avatar slot="start" *ngIf="creator.profile_path">
+                  <img [src]="[getImgUrl(creator.profile_path)]">
+                </ion-avatar>
+                <ion-label>
+                  <h2>{{ creator.name }}</h2>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+  
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>Elenco</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-list style="max-height: 400px; overflow-y: scroll;">
+              <ion-item *ngFor="let cast of tvShowCredits.cast">
+                <ion-avatar slot="start" *ngIf="cast.profile_path">
+                  <img [src]="[getImgUrl(cast.profile_path)]">
+                </ion-avatar>
+                <ion-label>
+                  <h2>{{ cast.name }}</h2>
+                  <p>{{ cast.character }}</p>
+                  <p>{{ cast.known_for_department }} </p>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+  
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>Temporadas</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-list style="max-height: 400px; overflow-y: scroll;">
+              <ion-item *ngFor="let season of tvShow.seasons">
+                <ion-label>{{ season.name }}</ion-label>
+                <ion-label>{{ season.episode_count }} episodes</ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+  
+      </div>
+  
+      <div *ngIf="segment === 'similares'">
+        <ion-grid>
+          <ion-row style="align-items: center; align-content: center;">
+            <ion-col size="6" *ngFor="let similar of similarTvShows.results"  >
+              <div *ngIf="similar" (click)="navigateToContent(similar.id, 'tvShow')">
+                <ion-card  >
+                  <img [src]="[getImgUrl(similar.poster_path || similar.backdrop_path)]"  >
+                  <ion-card-header>
+                    <ion-card-subtitle style="font-size: small;" >{{ similar.name?.slice(0,30) + '...' }}</ion-card-subtitle>
+                  </ion-card-header>
+              
+                </ion-card>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        
+  
+  
+        
+  
+      
+  
+  
+      </div>
+
+
+
+   
+  </div>
+
+  <div *ngIf="type === 'movie'">
+    
+      
+      <swiper-container class="mySwiper" space-between="2" pagination="true" pagination-dynamic="true" >
+  
+        <swiper-slide *ngFor="let img of movieImages.backdrops">
+          <img [src]="[getImgUrl(img.file_path)]" class="card-img-top" style="background-size: cover;">
+        </swiper-slide>
+  
+      </swiper-container>
+  
+      <div class="content-detail__header" style="text-align: center;">
+        <h1>{{ movie.title }} <span class="content-detail_year">({{ movie.release_date?.slice(0,4) }})</span></h1>
+  
+        <ion-chip *ngFor="let genre of movie.genres" color="tertiary">
+          {{ genre.name }}
+        </ion-chip>
+      </div>
+  
+      <div *ngIf="movie.overview">
+        <app-trunk-text [maxLength]="100" text="{{movie.overview}}"></app-trunk-text>
+      </div>
+
+      <ion-segment [(ngModel)]="segment" *ngIf="similarMovies">
+        <ion-segment-button value="info">
+          Informações
+        </ion-segment-button>
+        <ion-segment-button value="similares">
+          Similares
+        </ion-segment-button>
+      </ion-segment>
+  
+    <div *ngIf="segment === 'info'">
       <ion-card>
         <ion-card-header>
           <ion-card-subtitle>Informações</ion-card-subtitle>
@@ -34,62 +201,36 @@
         <ion-card-content>
           <ion-list>
             <ion-item>
-              <ion-label>Temporadas</ion-label>
-              <ion-label>{{ tvShow.number_of_seasons }}</ion-label>
+              <ion-label>Duração</ion-label>
+              <ion-label>{{ movie.runtime }} min</ion-label>
             </ion-item>
             <ion-item>
-              <ion-label>Episódios</ion-label>
-              <ion-label>{{ tvShow.number_of_episodes }}</ion-label>
+              <ion-label>Orçamento</ion-label>
+              <ion-label>{{ movie.budget | currency:'USD':'symbol':'1.0-0' }}</ion-label>
             </ion-item>
             <ion-item>
-              <ion-label>Estado</ion-label>
-              <ion-label>{{ tvShow.status }}</ion-label>
+              <ion-label>Receita</ion-label>
+              <ion-label>{{ movie.revenue | currency:'USD':'symbol':'1.0-0' }}</ion-label>
             </ion-item>
-            <ion-item *ngIf="tvShow.vote_average">
+            <ion-item *ngIf="movie.vote_average">
               <ion-label>Nota</ion-label>
-              <ion-label [ngStyle]="{'color': tvShow.vote_average > 6 ? 'green' : 'red'}">{{ tvShow.vote_average }}</ion-label>
+              <ion-label [ngStyle]="{'color': movie.vote_average > 6 ? 'green' : 'red'}">{{ movie.vote_average }}</ion-label>
             </ion-item>
             <ion-item>
               <ion-label>Popularidade</ion-label>
-              <ion-label>{{ tvShow.popularity }}</ion-label>
-            </ion-item>
-          </ion-list>
-        </ion-card-content>
-      </ion-card>
-    </div>
-
-    <div>
-      <ion-card>
-        <ion-card-header>
-          <ion-card-subtitle>Criadores</ion-card-subtitle>
-        </ion-card-header>
-        <ion-card-content>
-          <ion-list>
-            <ion-item *ngFor="let creator of tvShow.created_by">
-              <ion-avatar slot="start" *ngIf="creator.profile_path">
-                <img [src]="[getImgUrl(creator.profile_path)]">
-              </ion-avatar>
-              <ion-label>
-                <h2>{{ creator.name }}</h2>
-              </ion-label>
+              <ion-label>{{ movie.popularity }}</ion-label>
             </ion-item>
           </ion-list>
         </ion-card-content>
       </ion-card>
 
-    </div>
-
-
-
-
-    <div>
       <ion-card>
         <ion-card-header>
           <ion-card-subtitle>Elenco</ion-card-subtitle>
         </ion-card-header>
-        <ion-card-content>
-          <ion-list>
-            <ion-item *ngFor="let cast of tvShowCredits.cast">
+        <ion-card-content >
+          <ion-list style="max-height: 400px; overflow-y: scroll;">
+            <ion-item *ngFor="let cast of movieCredits.cast">
               <ion-avatar slot="start" *ngIf="cast.profile_path">
                 <img [src]="[getImgUrl(cast.profile_path)]">
               </ion-avatar>
@@ -102,26 +243,81 @@
           </ion-list>
         </ion-card-content>
       </ion-card>
+      
+      <ion-card>
+        <ion-card-header>
+          <ion-card-subtitle>Equipe</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-list style="max-height: 400px; overflow-y: scroll;">
+            <ion-item *ngFor="let crew of movieCredits.crew">
+              <ion-avatar slot="start" *ngIf="crew.profile_path">
+                <img [src]="[getImgUrl(crew.profile_path)]">
+              </ion-avatar>
+              <ion-label>
+                <h2>{{ crew.name }}</h2>
+                <p>{{ crew.job }}</p>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card>
+        <ion-card-header>
+          <ion-card-subtitle>Produção</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-list>
+            <ion-item *ngFor="let company of movie.production_companies">
+              <ion-avatar slot="start" *ngIf="company.logo_path">
+                <img [src]="[getImgUrl(company.logo_path)]">
+              </ion-avatar>
+              <ion-label>
+                <h2>{{ company.name }}</h2>
+                <p>{{ company.origin_country }}</p>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
     </div>
 
+    <div *ngIf="segment === 'similares'">
+      <ion-grid>
+        <ion-row style="align-items: center; align-content: center;">
+          <ion-col size="6" *ngFor="let similar of similarMovies.results"  >
+            <div *ngIf="similar" (click)="navigateToContent(similar.id, 'movie')">
+              <ion-card >
+                <img [src]="[getImgUrl(similar.poster_path)]"  >
+                <ion-card-header>
+                  <ion-card-subtitle style="font-size: small;">{{ similar.title?.slice(0,30) + '...' }}</ion-card-subtitle>
+                </ion-card-header>
+            
+              </ion-card>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      
 
-    <ion-card>
-      <ion-card-header>
-        <ion-card-subtitle>Temporadas</ion-card-subtitle>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-list>
-          <ion-item *ngFor="let season of tvShow.seasons">
-            <ion-label>{{ season.name }}</ion-label>
-            <ion-label>{{ season.episode_count }} episodes</ion-label>
-          </ion-item>
-        </ion-list>
-      </ion-card-content>
-    </ion-card>
+
+      
+
+    
+
+
+    </div>
   </div>
 
 
-</ion-content>
+</ion-content> 
+
+
+
+  
+
+
 <ion-footer>
   <ion-toolbar>
     <ion-row>
@@ -137,5 +333,6 @@
         <ion-icon name="eye" slot="icon-only"></ion-icon>
       </ion-button>
 
-    </ion-row> </ion-toolbar>
+    </ion-row> 
+  </ion-toolbar>
 </ion-footer>

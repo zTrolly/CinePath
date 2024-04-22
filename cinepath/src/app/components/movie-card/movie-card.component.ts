@@ -35,15 +35,9 @@ export class MovieCardComponent implements OnInit {
   }
 
 
-  getImgUrl = (path?: string) => {
-    if(this.listType === 'Movies') 
-      return `https://image.tmdb.org/t/p/w500${path}`
+  getImgUrl = (path?: string) => `https://image.tmdb.org/t/p/w500${path}`
 
-     return `https://image.tmdb.org/t/p/w220_and_h330_face/${path}`
-
-
-
-  }
+  
 
  
 

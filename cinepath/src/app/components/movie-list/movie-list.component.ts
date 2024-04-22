@@ -46,7 +46,6 @@ export class MovieListComponent implements OnInit  {
         case 'Popular':
           this.movieDbService.moviePopular({language: 'pt-BR'}).then((response) => {
             this.movies = response.results || []; 
-            console.log(this.movies);
           }).catch(error => {
             console.error('Error fetching popular movies:', error);
           });
@@ -77,7 +76,6 @@ export class MovieListComponent implements OnInit  {
       }
     }
     else if (this.listType === 'TVShows') {
-      console.log('TVShows');
       this.movies = [];
       switch (this.searchType) {
         case 'Popular':

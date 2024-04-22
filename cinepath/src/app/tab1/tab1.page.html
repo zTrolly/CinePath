@@ -1,16 +1,31 @@
-<ion-header translucent>
-  <ion-toolbar>
-    <ion-title>
-      Filmes Populares
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+  <ion-header translucent>
+    <ion-toolbar>
+      <ion-title>
+        Filmes Populares
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  
+    
+    <ion-segment [(ngModel)]="segment">
+      <ion-segment-button value="filmes">
+        Filmes
+      </ion-segment-button>
+      <ion-segment-button value="series">
+        Séries
+      </ion-segment-button>
+    </ion-segment>
+  
+    <ion-content style="background-color: #192347;">
+      <div *ngIf="segment === 'filmes'">
+        <app-movie-list [listType]="'Movies'" [searchType]="'Popular'"></app-movie-list>
+    </div>
+      <div *ngIf="segment === 'series'">
+        <app-movie-list [listType]="'TVShows'" [searchType]="'Popular'"></app-movie-list>
+    </div>
+    </ion-content>
+  
 
 
-<ion-content>
-  <app-explore-container name="Tab 1 page"></app-explore-container>
-  <!-- <app-movie-list [listType]="'Movies'" [searchType]="'Popular'"></app-movie-list> -->
-  <app-movie-list [listType]="'TVShows'" [searchType]="'Popular'"></app-movie-list>
 
-
-</ion-content>
