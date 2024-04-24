@@ -10,4 +10,8 @@ export const routes: Routes = [
     path: 'contentDetail/:type/:id',
     loadComponent: () => import('./content-detail/content-detail.page').then( m => m.ContentDetailPage)
   },
+  {
+    path: 'login',
+    loadComponent: () => import('./login/login.page').then( m => m.LoginPage)
+  },
 ];
