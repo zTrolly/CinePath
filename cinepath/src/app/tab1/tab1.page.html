@@ -1,31 +1,57 @@
-  <ion-header translucent>
-    <ion-toolbar>
-      <ion-title>
-        Filmes Populares
-      </ion-title>
-    </ion-toolbar>
-  </ion-header>
-  
-  
-    
-    <ion-segment [(ngModel)]="segment">
-      <ion-segment-button value="filmes">
-        Filmes
-      </ion-segment-button>
-      <ion-segment-button value="series">
-        Séries
-      </ion-segment-button>
-    </ion-segment>
-  
-    <ion-content style="background-color: #192347;">
-      <div *ngIf="segment === 'filmes'">
-        <app-movie-list [listType]="'Movies'" [searchType]="'Popular'"></app-movie-list>
-    </div>
-      <div *ngIf="segment === 'series'">
-        <app-movie-list [listType]="'TVShows'" [searchType]="'Popular'"></app-movie-list>
-    </div>
-    </ion-content>
-  
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>
+      Filmes Populares
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
 
 
 
+<ion-segment [(ngModel)]="segment">
+  <ion-segment-button value="filmes">
+    Filmes
+  </ion-segment-button>
+  <ion-segment-button value="series">
+    Séries
+  </ion-segment-button>
+</ion-segment>
+
+
+<swiper-container [slidesPerView]="3" [pagination]="{ type: 'fraction' }" [navigation]="true" style="width: 100%; height: 75px; justify-content: center; align-items: center; align-content: center;">
+
+  <swiper-slide>
+
+    <ion-button fill="clear" style="width: 130px; align-self: center;" (click)="changeSearchType('Popular')">
+      Novo
+    </ion-button>
+  </swiper-slide>
+
+  <swiper-slide>
+    <ion-button fill="clear" style="width: 130px; align-self: center;" (click)="changeSearchType('Top Rated')">
+      Melhor Avaliado
+    </ion-button>
+  </swiper-slide>
+
+  <swiper-slide>
+    <ion-button fill="clear" style="width: 130px; align-self: center;" (click)="changeSearchType('Now Playing')">
+      Mais Popular
+    </ion-button>
+  </swiper-slide>
+
+  <swiper-slide>
+    <ion-button fill="clear" style="width: 130px; align-self: center;" (click)="changeSearchType('Upcoming')">
+      Em Breve
+    </ion-button>
+  </swiper-slide>
+
+</swiper-container>
+
+<ion-content style="background-color: #192347;">
+  <div *ngIf="segment === 'filmes'">
+    <app-movie-list [listType]="'Movies'" [searchType]="searchType"></app-movie-list>
+  </div>
+  <div *ngIf="segment === 'series'">
+    <app-movie-list [listType]="'TVShows'" [searchType]="searchType"></app-movie-list>
+  </div>
+</ion-content>

@@ -1,5 +1,5 @@
 import { Component, OnInit, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { CommonModule, NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
@@ -148,8 +148,6 @@ export class ContentDetailPage implements OnInit {
       // pegar as 5 primeiras imagens
       this.tvShowImages.posters = this.tvShowImages.posters.slice(0, 5);
     }
-
-    
 
 
   }

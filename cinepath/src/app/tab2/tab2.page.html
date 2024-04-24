@@ -1,8 +1,50 @@
-
 <ion-content [fullscreen]="true">
 
   <ion-searchbar [(ngModel)]="searchTerm" (ionChange)="searchChanged()"></ion-searchbar>
 
+  <ion-segment *ngIf="ResultSearch.results" [(ngModel)]="segment">
+    <ion-segment-button value="movies" *ngIf="MovieResult">
+      Filmes
+    </ion-segment-button>
+    <ion-segment-button value="tvShows" *ngIf="TvResult">
+      Séries
+    </ion-segment-button>
+  </ion-segment>
+
+  <div *ngIf="segment === 'movies'">
+    <ion-grid>
+      <ion-row style="align-items: center; align-content: center;">
+        <ion-col size="6" *ngFor="let movie of MovieResult">
+          <div *ngIf="movie" (click)="movie && navigateToContent(movie?.id || 0, 'movie')">
+            <ion-card>
+              <img [src]="[getImgUrl(movie.poster_path)]">
+              <ion-card-header>
+                <ion-card-subtitle style="font-size: small;">{{ movie.title?.slice(0,30) + '...' }}</ion-card-subtitle>
+              </ion-card-header>
+
+            </ion-card>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+  <div *ngIf="segment === 'tvShows'">
+    <ion-grid>
+      <ion-row style="align-items: center; align-content: center;">
+        <ion-col size="6" *ngFor="let tvShow of TvResult">
+          <div *ngIf="tvShow" (click)="tvShow && navigateToContent(tvShow?.id || 0, 'tvShow')">
+            <ion-card>
+              <img [src]="[getImgUrl(tvShow.poster_path)]">
+              <ion-card-header>
+                <ion-card-subtitle style="font-size: small;">{{ tvShow.name?.slice(0,30) + '...' }}</ion-card-subtitle>
+              </ion-card-header>
+
+            </ion-card>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
 
 
 </ion-content>
