@@ -35,7 +35,7 @@ export class Tab2Page implements OnInit {
 
   //get serachbar value
   searchChanged() {
-    this.movieDbService.searchMulti({include_adult: true, query : this.searchTerm }).then((response) => {
+    this.movieDbService.searchMulti({include_adult: false, query : this.searchTerm }).then((response) => {
       this.ResultSearch = response;
       this.MovieResult = (this.ResultSearch.results ? this.ResultSearch.results.filter((result) => result.media_type === 'movie') : []) as MovieResult[];
       this.TvResult = (this.ResultSearch.results ? this.ResultSearch.results.filter((result) => result.media_type === 'tv') : []) as TvResult[];
