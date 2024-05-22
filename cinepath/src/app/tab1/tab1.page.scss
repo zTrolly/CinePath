@@ -1,0 +1,43 @@
+/* Estilização geral do swiper-container */
+swiper-container {
+  --swiper-navigation-color: #fff; /* Cor dos botões de navegação */
+  --swiper-pagination-color: #fff; /* Cor da paginação */
+  background-color: #333; /* Cor de fundo */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidade */
+  gap: 30px;
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  justify-content: space-evenly;
+  height: 30px;
+
+}
+
+/* Estilização dos slides */
+swiper-slide {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Estilização dos botões */
+ion-button {
+  font-size: 14px; /* Tamanho da fonte */
+  font-weight: bold; /* Negrito para destaque */
+  color: #fff; /* Cor do texto */
+  transition: background-color 0.3s, color 0.3s; /* Transição suave de cores */
+  align-self: center;
+  margin: 0 auto;
+}
+
+/* Efeitos ao passar o mouse e focar */
+ion-button:hover, ion-button:focus {
+  background-color: rgba(255, 255, 255, 0.2); /* Cor de fundo ao passar o mouse */
+  color: #ffdd00; /* Cor do texto ao passar o mouse */
+}
+
+/* Efeitos para o botão ativo */
+ion-button.active {
+  color: #ffdd00; /* Cor do texto do botão ativo */
+  background-color: rgba(255, 255, 255, 0.3); /* Cor de fundo do botão ativo */
+}
