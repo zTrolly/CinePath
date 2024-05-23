@@ -10,6 +10,7 @@ import { addIcons } from 'ionicons';
 import { heart, bookmark, eye } from 'ionicons/icons';
 import { TrunkTextComponent } from '../components/trunk-text/trunk-text.component';
 import { IonSegment } from '@ionic/angular/standalone';
+import { AppService } from '../services/appService';
 
 
 
