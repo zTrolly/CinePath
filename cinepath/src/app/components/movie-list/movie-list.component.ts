@@ -19,7 +19,7 @@ import { register } from 'swiper/element/bundle';
 })
 export class MovieListComponent implements OnInit, OnChanges {
   @Input() listType: string = 'Movies' || 'TVShows';
-  @Input() searchType: string = 'Popular' || 'Top Rated' || 'Upcoming' || 'Now Playing';
+  @Input() searchType: string =  ''
 
   movieDbService = new MovieDb(environment.api_key);
   movies: MovieResult[] = [];
@@ -35,6 +35,7 @@ export class MovieListComponent implements OnInit, OnChanges {
     this.loadData();
   }
 
+  
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['searchType']) {
       this.loadData(); // Call loadData to fetch data according to new searchType
@@ -42,12 +43,20 @@ export class MovieListComponent implements OnInit, OnChanges {
   }
 
   private loadData(): void {
+    this.clearData(); 
     if (this.listType === 'Movies') {
       this.fetchMovies();
     } else if (this.listType === 'TVShows') {
       this.fetchTVShows();
     }
   }
+
+  private clearData(): void {
+    this.movies = [];
+    this.tvShows = [];
+  }
+
+
 
   private fetchMovies(): void {
     this.tvShows = [];
@@ -102,6 +111,21 @@ export class MovieListComponent implements OnInit, OnChanges {
           console.error('Error fetching top rated tvshows:', error);
         });
         break;
+      case 'On The Air':
+        this.movieDbService.tvOnTheAir({ language: 'pt-BR' }).then(response => {
+          this.tvShows = response.results || [];
+        }).catch(error => {
+          console.error('Error fetching on the air tvshows:', error);
+        });
+        break;
+      case 'Airing Today':
+        this.movieDbService.tvAiringToday({ language: 'pt-BR' }).then(response => {
+          this.tvShows = response.results || [];
+        }).catch(error => {
+          console.error('Error fetching airing today tvshows:', error);
+        });
+        break;
+
       default:
         break;
     }

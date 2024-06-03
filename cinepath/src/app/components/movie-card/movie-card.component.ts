@@ -42,10 +42,7 @@ export class MovieCardComponent implements OnInit {
  
 
   ngOnInit() {
-    // console.log(this.movie)
-    console.log(this.tvShow)
-    console.log(this.listType)
-    console.log(this.isMovie)
+   
     
   }
 }

@@ -39,7 +39,6 @@ export class Tab2Page implements OnInit {
       this.ResultSearch = response;
       this.MovieResult = (this.ResultSearch.results ? this.ResultSearch.results.filter((result) => result.media_type === 'movie') : []) as MovieResult[];
       this.TvResult = (this.ResultSearch.results ? this.ResultSearch.results.filter((result) => result.media_type === 'tv') : []) as TvResult[];
-      console.log(this.MovieResult, this.TvResult);
 
       if(this.MovieResult.length > 0) {
         this.segment = 'movies';

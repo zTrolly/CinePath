@@ -1,4 +1,7 @@
-import { Routes } from '@angular/router';
+import { Routes,PreloadAllModules, RouterModule  } from '@angular/router';
+import { canActivate, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
+
+const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 
 export const routes: Routes = [
   {
@@ -8,7 +11,9 @@ export const routes: Routes = [
   {
     //path with two parameters
     path: 'contentDetail/:type/:id',
-    loadComponent: () => import('./content-detail/content-detail.page').then( m => m.ContentDetailPage)
+    loadComponent: () => import('./content-detail/content-detail.page').then( m => m.ContentDetailPage),
+    ...canActivate(redirectUnauthorizedToLogin) // Use spread operator to include canActivate logic
+   
   },
   {
     path: 'login',

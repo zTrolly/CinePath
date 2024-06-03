@@ -3,17 +3,35 @@
     <ion-title>
       Favoritos
     </ion-title>
+    <div>
+      <ion-icon name="refresh" slot="icon-only " style="color: white; width: 50px; background-color: #3171e0;" (click)="fetchFavorites()"></ion-icon>
+    </div>
+    <ion-menu-button></ion-menu-button>
   </ion-toolbar>
 
   <ion-content [fullscreen]="true">
-    <ion-grid>
+
+    <ion-segment [(ngModel)]="segment" (ionChange)="fetchAll()">
+      <ion-segment-button value="Favoritos">
+        Favoritos
+      </ion-segment-button>
+      <ion-segment-button value="Salvos">
+        Salvos
+      </ion-segment-button>
+      <ion-segment-button value="Ver depois">
+        Ver depois
+      </ion-segment-button>
+    </ion-segment>
+
+
+    <ion-grid *ngIf="segment === 'Favoritos'">
       <ion-row style="align-items: center; align-content: center;">
-        <ion-col size="6" *ngFor="let movie of mockData">
-          <div *ngIf="movie" (click)="movie && navigateToContent(movie?.id || 0, 'movie')">
+        <ion-col size="6" *ngFor="let content of favorites">
+          <div *ngIf="content" (click)="content && navigateToContent(content)">
             <ion-card>
-              <img [src]="[getImgUrl(movie.poster_path)]">
+              <img [src]="[getImgUrl(content.poster_path || '')]">
               <ion-card-header>
-                <ion-card-subtitle style="font-size: small;">{{ movie.title?.slice(0,30) + '...' }}</ion-card-subtitle>
+                <ion-card-subtitle style="font-size: small;">{{ getTitle(content)?.slice(0,30) + '...' }}</ion-card-subtitle>
               </ion-card-header>
 
             </ion-card>
@@ -21,5 +39,39 @@
         </ion-col>
       </ion-row>
     </ion-grid>
+
+    <ion-grid *ngIf="segment === 'Salvos'">
+      <ion-row style="align-items: center; align-content: center;">
+        <ion-col size="6" *ngFor="let content of bookMarks">
+          <div *ngIf="content" (click)="content && navigateToContent(content)">
+            <ion-card>
+              <img [src]="[getImgUrl(content.poster_path || '')]">
+              <ion-card-header>
+                <ion-card-subtitle style="font-size: small;">{{ getTitle(content)?.slice(0,30) + '...' }}</ion-card-subtitle>
+              </ion-card-header>
+
+            </ion-card>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+
+    <ion-grid *ngIf="segment === 'Ver depois'">
+      <ion-row style="align-items: center; align-content: center;">
+        <ion-col size="6" *ngFor="let content of whatchList">
+          <div *ngIf="content" (click)="content && navigateToContent(content)">
+            <ion-card>
+              <img [src]="[getImgUrl(content.poster_path || '')]">
+              <ion-card-header>
+                <ion-card-subtitle style="font-size: small;">{{ getTitle(content)?.slice(0,30) + '...' }}</ion-card-subtitle>
+              </ion-card-header>
+
+            </ion-card>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
 
   </ion-content>

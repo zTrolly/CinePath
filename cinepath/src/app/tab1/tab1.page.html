@@ -1,14 +1,10 @@
 <ion-header translucent>
   <ion-toolbar>
-    <ion-title>
-      Filmes Populares
-    </ion-title>
+    <ion-title>CINEPATH</ion-title>
   </ion-toolbar>
 </ion-header>
 
-
-
-<ion-segment [(ngModel)]="segment">
+<ion-segment [(ngModel)]="segment" (ionChange)="onSegmentChange()">
   <ion-segment-button value="filmes">
     Filmes
   </ion-segment-button>
@@ -17,8 +13,7 @@
   </ion-segment-button>
 </ion-segment>
 
-
-<swiper-container class="swiper-container" [slidesPerView]="3" [pagination]="{ type: 'fraction' }" [navigation]="true">
+<swiper-container *ngIf="segment === 'filmes'" class="swiper-container" [slidesPerView]="3" [pagination]="{ type: 'fraction' }" [navigation]="true">
   <swiper-slide>
     <ion-button fill="clear" (click)="changeSearchType('Popular')">
       Novo
@@ -41,6 +36,28 @@
   </swiper-slide>
 </swiper-container>
 
+<swiper-container *ngIf="segment === 'series'" class="swiper-container" [slidesPerView]="3" [pagination]="{ type: 'fraction' }" [navigation]="true">
+  <swiper-slide>
+    <ion-button fill="clear" (click)="changeSearchType('Popular')">
+      Novo
+    </ion-button>
+  </swiper-slide>
+  <swiper-slide>
+    <ion-button fill="clear" (click)="changeSearchType('Top Rated')">
+      Melhor Avaliado
+    </ion-button>
+  </swiper-slide>
+  <swiper-slide>
+    <ion-button fill="clear" (click)="changeSearchType('On The Air')">
+      No Ar
+    </ion-button>
+  </swiper-slide>
+  <swiper-slide>
+    <ion-button fill="clear" (click)="changeSearchType('Airing Today')">
+      Hoje
+    </ion-button>
+  </swiper-slide>
+</swiper-container>
 
 <ion-content style="background-color: #192347;">
   <div *ngIf="segment === 'filmes'">

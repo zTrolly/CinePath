@@ -57,3 +57,21 @@ swiper-container {
   max-height: 100%;
   display: block;
   object-fit: cover;}
+
+
+  .hero__button {
+    --background: none;
+    --color: var(--ion-color-step-700);
+    &.favorite-active {
+      --color: var(--ion-color-danger); // cor para indicar que está nos favoritos
+      --background: var(--ion-color-step-100);
+    }
+    &.bookmark-active {
+      --color: var(--ion-color-warning); // cor para indicar que está nos favoritos
+      --background: var(--ion-color-step-100);
+    }
+    &.watchList-active {
+      --color: var(--ion-color-success); // cor para indicar que está nos favoritos
+      --background: var(--ion-color-step-100);
+    }
+  }
